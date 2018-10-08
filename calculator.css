@@ -105,6 +105,10 @@ body {
   justify-content: center;
 }
 
+#header {
+  color: #fff
+}
+
 .container {
   max-width: 20em;
 }
