@@ -26,11 +26,11 @@ keys.addEventListener('click', e => {
       action === 'subtract' ||
       action === 'multiply' ||
       action === 'divide') {
-      console.log('operator key!')
+      key.classList.add('is-depressed')
     }
 
     if (action === 'decimal') {
-      console.log('decimal key!')
+      display.textContent = displayedNum + '.'
     }
 
     if (action === 'clear') {
