@@ -12,10 +12,12 @@ keys.addEventListener('click', e => {
     const displayedNum = display.textContent
 
     if (!action) {
-      /* if current display number is 0,
-      next number clicked should replace 0
-      otherwise, append the next number clicked to the current display number */
-      if (displayedNum === '0') {
+      /** if current display number is 0 or previous key pressed was an operator,
+       * next number clicked should replace 0 or the previous number
+       * otherwise, append the next number clicked to the current display number
+       */
+
+      if (displayedNum === '0' || previousKeyType == 'operator') {
         display.textContent = keyContent
       } else {
         display.textContent = displayedNum + keyContent
@@ -27,6 +29,8 @@ keys.addEventListener('click', e => {
       action === 'multiply' ||
       action === 'divide') {
       key.classList.add('is-depressed')
+      // add custom attribute
+      calculator.dataset.previousKeyType = 'operator'
     }
 
     if (action === 'decimal') {
@@ -40,6 +44,15 @@ keys.addEventListener('click', e => {
     if (action === 'calculate') {
       console.log('equal key!')
     }
+
+    /**
+     * case when user hits number key after operator:
+     * operator key should release its pressed state
+     */
+
+    // remove .is-depressed class from all keys
+    Array.from(key.parentNode.children)
+      .forEach(k => k.classList.remove('is-depressed'))
 
   }
 })
