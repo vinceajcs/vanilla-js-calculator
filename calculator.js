@@ -11,6 +11,8 @@ keys.addEventListener('click', e => {
     const keyContent = key.textContent
     const displayedNum = display.textContent
 
+    const previousKeyType = calculator.dataset.previousKeyType
+
     if (!action) {
       /** if current display number is 0 or previous key pressed was an operator,
        * next number clicked should replace 0 or the previous number
@@ -29,8 +31,13 @@ keys.addEventListener('click', e => {
       action === 'multiply' ||
       action === 'divide') {
       key.classList.add('is-depressed')
+
       // add custom attribute
       calculator.dataset.previousKeyType = 'operator'
+
+      // store first value and operator by adding it to custom attribute
+      calculator.dataset.firstValue = displayedNum
+      calculator.dataset.operator = action
     }
 
     if (action === 'decimal') {
@@ -41,9 +48,13 @@ keys.addEventListener('click', e => {
       console.log('clear key!')
     }
 
-    if (action === 'calculate') {
-      console.log('equal key!')
+    if (action === 'calculate') { // equal key pressed
+      const firstValue = calculator.dataset.firstValue
+      const operator = calculator.dataset.operator
+      const secondValue = displayedNum
+      display.textContent = calculate(firstValue, operator, secondValue)
     }
+
 
     /**
      * case when user hits number key after operator:
@@ -56,3 +67,21 @@ keys.addEventListener('click', e => {
 
   }
 })
+
+
+// called when equal key is pressed
+const calculate = (n1, operator, n2) => {
+  let result = ''
+
+  if (operator === 'add') {
+    result = parseFloat(n1) + parseFloat(n2)
+  } else if (operator === 'subtract') {
+    result = parseFloat(n1) - parseFloat(n2)
+  } else if (operator === 'multiply') {
+    result = parseFloat(n1) * parseFloat(n2)
+  } else if (operator === 'divide') {
+    result = parseFloat(n1) / parseFloat(n2)
+  }
+
+  return result
+}
